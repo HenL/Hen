@@ -12,25 +12,36 @@ final class Hen {
     
     static let sharedInstance = Hen()
     
+    var maxOperationCount: Int
+    var cacheCountLimit: Int
+    
     private lazy var queue: NSOperationQueue = {
         var q = NSOperationQueue()
-        q.maxConcurrentOperationCount = 1
+        q.maxConcurrentOperationCount = self.maxOperationCount
         return q
     }()
     
     private lazy var cache: NSCache = {
         var c = NSCache()
-        c.countLimit = 20
+        c.countLimit = self.cacheCountLimit
         return c
     }()
     
     private init() {
+        maxOperationCount = NSOperationQueueDefaultMaxConcurrentOperationCount
+        cacheCountLimit = 0
     }
     
-    func fetchImage(imageView: UIImageView!, strUrl: String?, placeholder: UIImage? = nil) {
+    func fetchImage(imageView: UIImageView!, strUrl: String?, placeholder: UIImage? = nil, countLimit: Int, operationCount: Int) {
         guard let stringUrl = strUrl else {
             imageView.image = placeholder
             return
+        }
+        if operationCount > 0 {
+            maxOperationCount = operationCount
+        }
+        if countLimit > 0 {
+            cacheCountLimit = countLimit
         }
         if let image = cache.objectForKey(stringUrl) as? UIImage {
             imageView.image = image
