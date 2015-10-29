@@ -32,16 +32,10 @@ final class Hen {
         cacheCountLimit = 0
     }
     
-    func fetchImage(imageView: UIImageView!, strUrl: String?, placeholder: UIImage? = nil, countLimit: Int, operationCount: Int) {
+    func fetchImage(imageView: UIImageView!, strUrl: String?, placeholder: UIImage? = nil) {
         guard let stringUrl = strUrl else {
             imageView.image = placeholder
             return
-        }
-        if operationCount > 0 {
-            maxOperationCount = operationCount
-        }
-        if countLimit > 0 {
-            cacheCountLimit = countLimit
         }
         if let image = cache.objectForKey(stringUrl) as? UIImage {
             imageView.image = image
