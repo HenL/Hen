@@ -12,8 +12,8 @@ final class Hen {
     
     static let sharedInstance = Hen()
     
-    var maxOperationCount: Int
-    var cacheCountLimit: Int
+    private var maxOperationCount: Int
+    private var cacheCountLimit: Int
     
     private lazy var queue: NSOperationQueue = {
         var q = NSOperationQueue()
