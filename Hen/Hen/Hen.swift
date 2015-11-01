@@ -47,7 +47,7 @@ final class Hen {
     private init() {        
     }
     
-    func fetchImage(imageView: UIImageView!, strUrl: String?, placeholder: UIImage? = nil) {
+    func fetchImage(imageView: HenImageView!, strUrl: String?, placeholder: UIImage? = nil) {
         guard let stringUrl = strUrl else {
             imageView.image = placeholder
             return
@@ -55,13 +55,13 @@ final class Hen {
         if let image = cache.objectForKey(stringUrl) as? UIImage {
             imageView.image = image
         } else {
-            let id = stringUrl
-            imageView.id = NSUUID().UUIDString
+            let id = NSUUID().UUIDString
+            imageView.id = id
             downloadImage(stringUrl, imageView: imageView, id: id)
         }
     }
     
-    private func downloadImage(strUrl: String!, imageView: UIImageView!, id: String!) {
+    private func downloadImage(strUrl: String!, imageView: HenImageView!, id: String!) {
         queue.addOperationWithBlock { [weak self, imageView, strUrl] in
             
             guard let strongSelf = self,
