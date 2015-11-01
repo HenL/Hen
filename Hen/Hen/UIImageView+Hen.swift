@@ -10,16 +10,12 @@ import UIKit
 
 public extension UIImageView {
     
-    var id: String? {
-        get {
-            return self.id
-        } set {
-            self.id = newValue
-        }
-    }
-    
     public func setImageFromStrURL(strUrl: String?, placeholder: UIImage? = nil) {
-        
-        Hen.sharedInstance.fetchImage(self, strUrl: strUrl, placeholder: placeholder)
+
+        Hen.sharedInstance.fetchImage((self as! HenImageView), strUrl: strUrl, placeholder: placeholder)
     }
+}
+
+class HenImageView: UIImageView {
+    var id: String?
 }
