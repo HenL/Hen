@@ -47,7 +47,7 @@ final class Hen {
     private init() {        
     }
     
-    func fetchImage(imageView: HenImageView!, strUrl: String?, placeholder: UIImage? = nil) {
+    func fetchImage(imageView: UIImageView!, strUrl: String?, placeholder: UIImage? = nil) {
         guard let stringUrl = strUrl else {
             imageView.image = placeholder
             return
@@ -61,7 +61,7 @@ final class Hen {
         }
     }
     
-    private func downloadImage(strUrl: String!, imageView: HenImageView!, id: String!) {
+    private func downloadImage(strUrl: String!, imageView: UIImageView!, id: String!) {
         queue.addOperationWithBlock { [weak self, imageView, strUrl] in
             
             guard let strongSelf = self,
