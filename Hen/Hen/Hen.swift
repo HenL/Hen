@@ -11,7 +11,7 @@ import Foundation
 final class Hen {
     
     static let sharedInstance = Hen()
-
+    
     private lazy var queue: NSOperationQueue = {
         return NSOperationQueue()
     }()
@@ -20,7 +20,31 @@ final class Hen {
         return NSCache()
     }()
     
-    private init() {
+    var countLimit: Int {
+        get {
+            return cache.countLimit
+        } set {
+            cache.countLimit = newValue
+        }
+    }
+    
+    var totalCostLimit: Int {
+        get {
+            return cache.totalCostLimit
+        } set {
+            cache.totalCostLimit = newValue
+        }
+    }
+    
+    var maxOperationCount: Int {
+        get {
+            return queue.maxConcurrentOperationCount
+        } set {
+            queue.maxConcurrentOperationCount = newValue
+        }
+    }
+    
+    private init() {        
     }
     
     func fetchImage(imageView: UIImageView!, strUrl: String?, placeholder: UIImage? = nil) {
@@ -31,11 +55,13 @@ final class Hen {
         if let image = cache.objectForKey(stringUrl) as? UIImage {
             imageView.image = image
         } else {
-            downloadImage(stringUrl, imageView: imageView)
+            let id = stringUrl
+            imageView.id = NSUUID().UUIDString
+            downloadImage(stringUrl, imageView: imageView, id: id)
         }
     }
     
-    private func downloadImage(strUrl: String!, imageView: UIImageView!) {
+    private func downloadImage(strUrl: String!, imageView: UIImageView!, id: String!) {
         queue.addOperationWithBlock { [weak self, imageView, strUrl] in
             
             guard let strongSelf = self,
@@ -47,8 +73,10 @@ final class Hen {
             }
             strongSelf.cache.setObject(image, forKey: stringUrl)
             
-            NSOperationQueue.mainQueue().addOperationWithBlock { [weak destImageView, image] in
-                destImageView?.image = image
+            NSOperationQueue.mainQueue().addOperationWithBlock { [weak destImageView, image, id] in
+                if destImageView?.id == id {
+                    destImageView?.image = image
+                }
             }
         }
     }
