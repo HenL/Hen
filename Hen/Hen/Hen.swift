@@ -57,6 +57,7 @@ final class Hen {
         } else {
             let id = NSUUID().UUIDString
             imageView.id = id
+            imageView.image = placeholder
             downloadImage(stringUrl, imageView: imageView, id: id)
         }
     }
