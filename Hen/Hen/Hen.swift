@@ -8,9 +8,9 @@
 
 import Foundation
 
-final class Hen {
+public final class Hen {
     
-    static let sharedInstance = Hen()
+    public static let sharedInstance = Hen()
     
     private lazy var queue: NSOperationQueue = {
         return NSOperationQueue()
@@ -20,7 +20,7 @@ final class Hen {
         return NSCache()
     }()
     
-    var countLimit: Int {
+    public var countLimit: Int {
         get {
             return cache.countLimit
         } set {
@@ -28,7 +28,7 @@ final class Hen {
         }
     }
     
-    var totalCostLimit: Int {
+    public var totalCostLimit: Int {
         get {
             return cache.totalCostLimit
         } set {
@@ -36,7 +36,7 @@ final class Hen {
         }
     }
     
-    var maxOperationCount: Int {
+    public var maxOperationCount: Int {
         get {
             return queue.maxConcurrentOperationCount
         } set {
